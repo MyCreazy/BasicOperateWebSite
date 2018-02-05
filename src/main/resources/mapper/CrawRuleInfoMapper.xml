@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace名称可以随便取，尽量符合逻辑和命名规范即可 -->
+<!-- 关于爬虫规则方面的操作 -->
+<mapper namespace="crawruleDBOperate">
+	<!-- 查询数据 -->
+	<select id="findbyCondition" resultType="com.sl.CrawRuleSettingSystem.model.CrawRuleInfoVo">
+		select * from
+		crawruleinfo where IsDelete=0 
+		<if test="KeyID!=''">
+			and KeyID=#{KeyID}
+		</if>
+		<if test="DataFlag!=''">
+			and DataFlag=#{DataFlag}
+		</if>
+		<if test="ExcuteStatu==-1">
+			and ExcuteStatu in (0,1,2)
+		</if>
+		<if test="ExcuteStatu==0">
+			and ExcuteStatu=0
+		</if>
+		<if test="ExcuteStatu==1">
+			and ExcuteStatu=1
+		</if>
+		<if test="ExcuteStatu==2">
+			and ExcuteStatu=2
+		</if>
+	</select>
+
+	<!-- 插入爬虫规则 -->
+	<insert id="insertCrawRule" parameterType="com.sl.CrawRuleSettingSystem.model.CrawRuleInfoVo">
+		insert into
+		crawruleinfo(KeyID,WebSiteName,DataFlag,RuleSerial,RequestUrl,RequestProtocolFlag,CompressFormatFlag,RequestHead,IsNeedCookie,Cookie,RequestActionFlag,ReferAddress,RequestPageNumbers,AnalysisWayFlag,IsRelyLastResult,AnalysisExpress,SleepTime,RetryNumber,TimeOut,RuleExcuteTime,NextIntervalTime,IsUseProxyIP,ExcuteStatu,IsDelete,ModifyTime)
+		values(#{KeyID},#{WebSiteName},#{DataFlag},#{RuleSerial},#{RequestUrl},#{RequestProtocolFlag},#{CompressFormatFlag},#{RequestHead},#{IsNeedCookie},#{Cookie},#{RequestActionFlag},#{ReferAddress},#{RequestPageNumbers},#{AnalysisWayFlag},#{IsRelyLastResult},#{AnalysisExpress},#{SleepTime},#{RetryNumber},#{TimeOut},#{RuleExcuteTime},#{NextIntervalTime},#{IsUseProxyIP},#{ExcuteStatu},#{IsDelete},#{ModifyTime})
+	</insert>
+
+	<!-- 删除爬虫规则，逻辑删除 -->
+	<update id="delCrawRule" parameterType="String">
+		update crawruleinfo set
+		IsDelete=1 where KeyID=#{keyid}
+	</update>
+	
+	<!-- 更新爬虫规则 -->
+	<update id="updatelCrawRule" parameterType="com.sl.CrawRuleSettingSystem.model.CrawRuleInfoVo">
+		update crawruleinfo set 
+		WebSiteName=#{WebSiteName},DataFlag=#{DataFlag},RuleSerial=#{RuleSerial},RequestUrl=#{RequestUrl},RequestProtocolFlag=#{RequestProtocolFlag},CompressFormatFlag=#{CompressFormatFlag},RequestHead=#{RequestHead},IsNeedCookie=#{IsNeedCookie},Cookie=#{Cookie},RequestActionFlag=#{RequestActionFlag},ReferAddress=#{ReferAddress},RequestPageNumbers=#{RequestPageNumbers},AnalysisWayFlag=#{AnalysisWayFlag},IsRelyLastResult=#{IsRelyLastResult},AnalysisExpress=#{AnalysisExpress},SleepTime=#{SleepTime},RetryNumber=#{RetryNumber},TimeOut=#{TimeOut},RuleExcuteTime=#{RuleExcuteTime},NextIntervalTime=#{NextIntervalTime},IsUseProxyIP=#{IsUseProxyIP},ExcuteStatu=#{ExcuteStatu}  where KeyID=#{KeyID}
+	</update>
+</mapper>

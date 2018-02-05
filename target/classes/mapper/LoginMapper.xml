@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace名称可以随便取，尽量符合逻辑和命名规范即可 -->
+<!-- 关于登录方面的数据库操作 -->
+<mapper namespace="loginDBOperate">
+	<!-- 查询数据 -->
+	<select id="findbyCondition"  parameterType="Map"  resultType="com.sl.CrawRuleSettingSystem.model.UserInfoVo">
+		select * from userinfo where IsDelete=0 and UserName=#{UserName}
+	</select>
+</mapper>
